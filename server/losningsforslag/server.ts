@@ -40,26 +40,30 @@
   io.on('connection', (socket: any) => {
     console.log('a user connected 😻');
 
+    // Oppgave 1
     socket.emit('participants', participants);
+    // ---------
 
+    // Oppgave 1
     socket.on('join', (participant: Participant) => {
       participants.push(participant);
       io.emit('participants', participants);
       socket.emit('chat messages', chatMessages);
     });
+    // ---------
 
-    socket.on('new message', (message: IncomingMessage) => {
-      const sender = participants.find(
-        participant => participant.id === socket.id
-      )!;
-
-      chatMessages.push({
+    // Oppgave 3
+    socket.on('add message', (message: IncomingMessage) => {
+      const newMessage: Message = {
         ...message,
-        sender
-      });
+        sender: participants.find(participant => participant.id === socket.id)!
+      };
 
-      io.emit('chat messages', chatMessages);
+      chatMessages.push(newMessage);
+
+      io.emit('new message', newMessage);
     });
+    // ---------
 
     socket.on('disconnect', () => {
       console.log('user disconnected');

@@ -13,6 +13,11 @@ interface Message {
   user: Participant;
 }
 
+interface IncomingMessage {
+  text: string;
+  timestamp: number;
+}
+
 const DUMMY_PARTICIPANTS = [
   { nickname: 'Powerwolf', id: 'fakeId1' },
   { nickname: 'Babymetal', id: 'fakeId2' }
