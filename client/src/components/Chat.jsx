@@ -24,13 +24,8 @@ const Chat = ({ socket }) => {
               </li>
             ))}
           </ul>
-          <form className="message-form" onSubmit={sendMessage}>
-            <textarea
-              rows="4"
-              value={message}
-              onChange={e => setMessage(e.target.value)}
-              spellCheck={false}
-            />
+          <form className="message-form">
+            <textarea id="messageText" rows="4" spellCheck={false} />
             <button className="message-form__button" onClick={sendMessage}>
               <img src="../arrow.svg" alt="Send message" />
             </button>

@@ -44,8 +44,11 @@
     socket.emit('participants', participants);
     // ---------
 
-    // Oppgave 1
+    // Oppgave 2
     socket.on('join', (participant: Participant) => {
+      // Oppgave 4
+      socket.join('chat');
+      // ---------
       participants.push(participant);
       io.emit('participants', participants);
       socket.emit('chat messages', chatMessages);
@@ -61,7 +64,12 @@
 
       chatMessages.push(newMessage);
 
-      io.emit('new message', newMessage);
+      // Løsning på oppgave 3, men unødvendig med funksjonen under
+      // io.emit('new message', newMessage);
+
+      // Oppgave 4
+      io.to('chat').emit('new message', newMessage);
+      //
     });
     // ---------
 

@@ -67,7 +67,39 @@ Dette vil altså sende oppdatert deltakerliste til samtlige klienter, inkludert 
 (Det er et bevisst valg å kalle denne noe annet enn `chatMessages`, for å unngå tvetydige variabelnavn)
 2. Lag en ny `socket.on()`-funksjon som lytter på eventet som sender ut `chatMessages`-lista, og oppdaterer `messages`-staten med denne lista. Sørg samtidig for å sette `active`-staten til `true`.
 
-Du bør nå se chatvinduet med meldingen "Velkommen til chatten" og et inputfelt, og kan da gå videre til neste oppgave.
+Du bør nå se chatvinduet med meldingen "Velkommen til chatten" og et inputfelt, og kan da gå videre til neste oppgave. Fra og med nå kommer vi til å omtale funksjoner som sender et socket-event som _emit-funksjoner_, og funksjoner som tar imot et event som _lyttefunksjoner_
 
 ## Oppgave 3 - Send meldinger
 
+Hvis du prøver å sende en melding nå, så vil du oppleve at hele vinduet refresher. Dette skjer fordi `<form>`-elementet rundt fyrer av en default action, som ikke driver med sånne SPA-greier som dynamisk datalasting. La oss fikse det.
+
+**Server**
+1. Lag en lytterfunksjon som tar imot nye meldinger fra en `socket`. Meldingen som kommer inn må være av typen `IncomingMessage`. Og legg til denne meldingen i `chatMessages`-lista.
+   1. For å legge til meldingen i lista må vi utvide den med informasjon som `sender`. Du kan hente ut `socket.id` på serversiden også, og f.eks. bruke `participands.find()` for å finne deltakeren som matcher denne IDen.
+2. Lag en emit-funksjon som videresender denne nye meldingen til alle tilkoblede klienter.
+
+**Klient**
+1. I `client/src/components/Chat.jsx` lag en funksjon som trigger ved `onSubmit` av skjemaet i chatvinduet, tilsvarende slik `joinChat`-funksjonen er satt opp. I deklarasjonen av denne funksjonen, bruk en emit-funksjon for å sende meldingen, slik at den fanges opp av lytterfunksjonen du har laget på serveren. Ha i bakhode hvilke felter du må sende inn for at dette skal fungere som forventet. 
+2. Lag en funksjon som lytter etter eventet som sender ut den nye meldingen til alle klienter, og utvid `messages`-staten til å inneholde meldingen som sendes med.
+
+Nå burde du kunne sende meldinger, og se at de dukker opp i chatten. Awesome 🙌
+
+**Men!** Vi har et lite issue... 
+
+Legg inn ei litta `console.log` i funksjonen du nettopp lagde (den som tar i mot en ny melding) og print ut den nye meldingen. Åpne en ny fane, uten å joine chatten.
+- Hva skjer i konsollen til denne nye fanen, dersom du sender en melding i en fane der du har joina chatten? Dukker meldingen du nettopp sendte opp der også?
+
+Vi har altså behov for noe som lar oss emitte events til et begrenset subsett av alle tilkoblede klienter: Kun de som har joinet chatten burde få tilsendt nye meldinger.
+
+## Oppgave 4 - Begrensning av hvem vi sender meldinger til
+
+For å begrense hvem vi sender meldinger til, kan vi bruke det `socket.io` kaller "rooms". For å sitere dokumentasjonen: 
+> [Rooms are] arbitrary channels that sockets can join and leave
+
+Vi kan sende et event, kun til klienter som har joina et gitt rom, ved å bruke funksjoner som `io.to(ROOM_NAME).emit(EVENT_NAME, PAYLOAD)` og `socket.to(ROOM_NAME).emit(EVENT_NAME, PAYLOAD)` for å sende til henholdsvis samtlige klienter, eller samtlige klienter med unntak av avsenderklienten.
+
+**Server**
+1. Få en klient til å joine rommet `'chat'` når de, vel, joiner chatten, ved å legge inn `socket.join('chat')` i funksjonen som legger inn en ny deltaker i `partcipants`-lista.
+2. Oppdater emit-funksjonen du lagde i steg 2 av serverdelen i oppgave 3, slik at den nye meldingen kun sendes til klienter som har jointer `'chat'`-rommet.
+
+Gjenta den lille sjekken med to faner fra oppgave 3, og verifiser at brukere som ikke har joina chatten ikke får tilsendt nye meldinger.

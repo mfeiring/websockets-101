@@ -29,9 +29,15 @@ const Chat = ({ socket }) => {
     const text = e.target.messageText.value;
 
     if (text) {
-      socket.emit('new message', { text, timestamp: Date.now() });
+      socket.emit('add message', { text, timestamp: Date.now() });
     }
   };
+
+  socket.on('new message', chatMessage => {
+    console.log(chatMessage);
+    setMessages([...messages, chatMessage]);
+  });
+  // ---------
 
   useEffect(() => {
     // Scroll to and show last message
