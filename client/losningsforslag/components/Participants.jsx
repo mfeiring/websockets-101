@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 const Participants = ({ socket }) => {
   const [participants, setParticipants] = useState([]);
 
+  // Oppgave 1
   socket.on('participants', participants => {
     setParticipants(participants);
   });
+  // ---------
 
   return (
     <article className="container participant-container">
