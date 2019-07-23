@@ -5,20 +5,7 @@ const Chat = ({ socket }) => {
   const [active, setActive] = useState(false);
   const [messages, setMessages] = useState([]);
 
-  const sendMessage = e => {
-    e.preventDefault();
-    const text = e.target.messageText.value;
-
-    if (text) {
-      socket.emit('new message', { text, timestamp: Date.now() });
-    }
-  };
-
-  socket.on('chat messages', chatMessages => {
-    setMessages(chatMessages);
-    setActive(true);
-  });
-
+  // Oppgave 2
   const joinChat = e => {
     e.preventDefault();
 
@@ -27,6 +14,22 @@ const Chat = ({ socket }) => {
     if (nickname) {
       const participant = { nickname, id: socket.id };
       socket.emit('join', participant);
+    }
+  };
+
+  socket.on('chat messages', chatMessages => {
+    setMessages(chatMessages);
+    setActive(true);
+  });
+  // ---------
+
+  // Oppgave 3
+  const sendMessage = e => {
+    e.preventDefault();
+    const text = e.target.messageText.value;
+
+    if (text) {
+      socket.emit('new message', { text, timestamp: Date.now() });
     }
   };
 

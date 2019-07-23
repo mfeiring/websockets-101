@@ -23,7 +23,7 @@ Steg fire skal automatisk åpne et nettleservindu for deg. Når du fått opp det
 
 (For å kjøre opp løsningsforslaget, bytt ut `npm start` med `npm run start:lf` for både server og klient)
 
-## Oppgave 1
+## Oppgave 1 - Deltakerliste
 
 Foreløpig er serveren vår ganske enkel. Vi har opprettet en `socket.io`-instans ved å kjøre `const io = require('socket.io')(server)`, deretter lytter vi til et `connection`-event, som fyrer av hver gang en klient (en `socket`) kobler seg til. Dersom du har startet webapplikasjonen og åpnet den i en nettleser, bør du kunne se følgende logget i terminalen du startet serveren i `a user connected 😻`.
 - Hva skjer hvis du refresher nettleservinduet?
@@ -48,10 +48,9 @@ socket.on(EVENT_NAME, PAYLOAD => {
 
 Vi kunne også sendt ut deltakerlista ved å bruke `io.emit(EVENT_NAME, PAYLOAD)`. Da hadde vi imidlertid sendt ut lista til samtlige klienter som er tilkoblet. Altså: `io` er den "globale" `socket.io`-instansen alle klienter kobler seg til, mens `socket` representerer den aktuelle klienten. 
 
-## Oppgave 2
+## Oppgave 2 - Join chat
 
 Det neste steget er å kunne joine chatten. Frontendkoden for denne komponenten finner du i `client/src/components/Chat.jsx`. Denne komponenten har to ulike visninger, et enkelt skjema for å skrive inn brukernavn og joine chatten, og en chatvisning, som vises avhengig av om staten `active` er henholdsvis `false` eller `true`. Den er satt til `false`, og tanken er altså at den skal endres til `true` idet man joiner.
-
 
 **Klient**
 1. I den tomme `joinChat`-funksjonen (sett bort fra `e.preventDefault()`), bruk en `socket.emit()`-funksjon for å sende et objekt med deltakernavn (`nickname`) og deltaker-ID (`id`) til serveren. Bruk IDen til socketen (`socket.id`).   
@@ -70,5 +69,5 @@ Dette vil altså sende oppdatert deltakerliste til samtlige klienter, inkludert 
 
 Du bør nå se chatvinduet med meldingen "Velkommen til chatten" og et inputfelt, og kan da gå videre til neste oppgave.
 
-## Oppgave 3
+## Oppgave 3 - Send meldinger
 
