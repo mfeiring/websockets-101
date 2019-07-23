@@ -75,6 +75,12 @@
 
     socket.on('disconnect', () => {
       console.log('user disconnected');
+
+      // Oppgave 5
+      participants = participants.filter(
+        participant => participant.id !== socket.id
+      );
+      //
     });
   });
 

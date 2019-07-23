@@ -8,7 +8,9 @@ const Participants = ({ socket }) => {
       <h2>Participants</h2>
       <ul className="participant-list">
         {participants.map(participant => (
-          <li>{participant.nickname}</li>
+          <li className="participant" key={participant.id}>
+            {participant.nickname}
+          </li>
         ))}
       </ul>
     </article>

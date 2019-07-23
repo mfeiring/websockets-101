@@ -15,11 +15,11 @@ const Chat = ({ socket }) => {
         <>
           <ul className="messages" id="messages">
             {messages.map(message => (
-              <li className="message-content" key={message.time}>
-                <p className="message">{message.message}</p>
+              <li className="message" key={message.timestamp}>
+                <p className="message__text">{message.text}</p>
                 <div className="message__metadata">
-                  <span>{message.user.nickname}</span>
-                  <span>{dateFormat(message.time, 'HH:mm:ss')}</span>
+                  <span>{message.sender.nickname}</span>
+                  <span>{dateFormat(message.timestamp, 'HH:mm:ss')}</span>
                 </div>
               </li>
             ))}

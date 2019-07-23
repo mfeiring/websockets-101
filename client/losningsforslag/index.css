@@ -1,3 +1,15 @@
+:root {
+  --message-bg: #f1f1f1;
+  --message-color: black;
+  --message-color-meta: #525252;
+}
+
+.message--active {
+  --message-bg: #0094ff;
+  --message-color: white;
+  --message-color-meta: #white;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -129,11 +141,6 @@ button:active:after {
   transform: skew(0, 45deg) scaleX(0);
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-}
-
 main {
   display: grid;
   grid-gap: 3rem;
@@ -141,60 +148,15 @@ main {
   grid-template-rows: 500px;
 }
 
-.join-form {
-  max-width: 300px;
-  margin: 5rem auto;
-}
-
-.message-form {
-  display: flex;
-}
-
-.message-form__button {
-  padding: 0;
-}
-
-.game {
-  width: 100%;
-  height: 400px;
+canvas {
   background: #f1f1f1;
   cursor: none;
+  height: 400px;
 }
 
-.messages {
-  border-bottom: 1px solid black;
-  /* overflow-anchor: none; */
-  flex-grow: 1;
-  margin: 0 0 1rem;
-  overflow-y: scroll;
-  padding: 1rem 0;
-}
-
-.message {
-  margin: 0 0 0.5rem;
-}
-
-.message-content {
-  background-color: var(--message-bg, #f1f1f1);
-  border-radius: 5px;
-  color: var(--message-color, black);
-  padding: 10px;
-  max-width: 80%;
-  margin-bottom: 1rem;
-}
-
-.message__metadata {
-  color: var(--message-color, #525252);
+.container {
   display: flex;
-  font-size: 0.8rem;
-  font-weight: 400;
-  justify-content: space-between;
-}
-
-.participant-list {
-  margin-left: 1rem;
-  overflow-y: scroll;
-  padding: 1rem;
+  flex-direction: column;
 }
 
 .participant-container {
@@ -205,12 +167,69 @@ main {
   grid-column: 1 / 3;
 }
 
-.my-message {
-  --message-bg: #0094ff;
-  --message-color: white;
+.participant-list {
+  overflow-y: scroll;
+  padding: 1rem;
+}
+
+.participant {
+  list-style-type: none;
+}
+
+.participant:before {
+  content: '👾';
+}
+
+.participant--active {
+  font-size: 1.2rem;
+}
+
+.participant--active:before {
+  content: '👑';
+}
+
+.join-form {
+  max-width: 300px;
+  margin: 5rem auto;
+}
+
+.messages {
+  border-bottom: 1px solid black;
+  flex-grow: 1;
+  margin: 0 0 1rem;
+  overflow-y: scroll;
+  padding: 1rem 0;
+}
+
+.message {
+  background-color: var(--message-bg);
+  border-radius: 5px;
+  color: var(--message-color);
+  padding: 10px;
+  max-width: 80%;
+  margin-bottom: 1rem;
+}
+
+.message--active {
   margin-left: auto;
 }
 
-.this-is-me {
-  color: #4caf50;
+.message__text {
+  margin: 0 0 0.5rem;
+}
+
+.message__metadata {
+  color: var(--message-color);
+  display: flex;
+  font-size: 0.8rem;
+  font-weight: 400;
+  justify-content: space-between;
+}
+
+.message-form {
+  display: flex;
+}
+
+.message-form__button {
+  padding: 0;
 }

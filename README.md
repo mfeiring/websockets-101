@@ -103,3 +103,18 @@ Vi kan sende et event, kun til klienter som har joina et gitt rom, ved å bruke 
 2. Oppdater emit-funksjonen du lagde i steg 2 av serverdelen i oppgave 3, slik at den nye meldingen kun sendes til klienter som har jointer `'chat'`-rommet.
 
 Gjenta den lille sjekken med to faner fra oppgave 3, og verifiser at brukere som ikke har joina chatten ikke får tilsendt nye meldinger.
+
+## Oppgave 5 - Finpuss
+
+Et par småting gjenstår for å gjøre chatten enda smoothere:
+
+- **Annen styling på "deg selv" i deltakerlista**  
+Finn en måte å sette klassen `participant--active` på det `<li>`-elementet i `Participants.jsx` som matcher "din bruker" 
+- **Annen styling på meldinger du har sendt**  
+Finn en måte å sette klassen `message--active` på de `<li>`-elementet i `Chat.jsx` som tilsvarer meldinger du har sendt.
+- **Fjerning av deltakere fra lista, dersom de forlater siden**  Utvid `socket.on('disconnect')`-funksjonen, slik at den fjerner deltagere fra `participants`-lista
+- **Scroll til bunnen av meldingslista når det kommer nye meldinger**  
+Bruk en `useEffect`-hook for å oppdatere scrollposisjonen til meldingslista, slik at man ser nye meldinger når de kommer.
+
+
+

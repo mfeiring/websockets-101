@@ -39,13 +39,14 @@ const Chat = ({ socket }) => {
   });
   // ---------
 
+  //Oppgave 5
   useEffect(() => {
-    // Scroll to and show last message
     const chatHistory = document.getElementById('messages');
     if (chatHistory) {
       chatHistory.scrollTop = chatHistory.scrollHeight;
     }
-  }, [messages]);
+  });
+  // ---------
 
   return (
     <article className="container chat-container">
@@ -54,8 +55,13 @@ const Chat = ({ socket }) => {
         <>
           <ul className="messages" id="messages">
             {messages.map(message => (
-              <li className="message-content" key={message.timestamp}>
-                <p className="message">{message.text}</p>
+              <li
+                className={`message ${
+                  message.sender.id === socket.id ? 'message--active' : ''
+                }`}
+                key={message.timestamp}
+              >
+                <p className="message__text">{message.text}</p>
                 <div className="message__metadata">
                   <span>{message.sender.nickname}</span>
                   <span>{dateFormat(message.timestamp, 'HH:mm:ss')}</span>

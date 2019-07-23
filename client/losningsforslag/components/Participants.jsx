@@ -14,7 +14,14 @@ const Participants = ({ socket }) => {
       <h2>Participants</h2>
       <ul className="participant-list">
         {participants.map(participant => (
-          <li key={participant.id}>{participant.nickname}</li>
+          <li
+            className={`participant ${
+              participant.id === socket.id ? 'participant--active' : ''
+            }`}
+            key={participant.id}
+          >
+            {participant.nickname}
+          </li>
         ))}
       </ul>
     </article>
