@@ -1,0 +1,18 @@
+{
+  "name": "websockets-101-server",
+  "scripts": {
+    "start": "ts-node-dev --respawn ./server.ts",
+    "start:lf": "ts-node-dev --respawn ./losningsforslag/server.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.6.8",
+    "ts-node-dev": "^1.0.0-pre.40",
+    "typescript": "^3.5.3"
+  }
+}
