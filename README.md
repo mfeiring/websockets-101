@@ -8,13 +8,13 @@ Kurs i WebSockets og Socket.IO.
 2. Åpne to terminalvinduer
 3. Kjør opp serveren i den ene terminalen
 ```bash
-$ cd websockets/server
+$ cd websockets-101/server
 $ npm i
 $ npm start
 ```
 4. Kjør opp webapplikasjonen i den andre terminalen
 ```bash
-$ cd websockets/client
+$ cd ../client
 $ npm i
 $ npm start
 ```
