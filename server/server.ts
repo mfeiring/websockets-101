@@ -10,7 +10,7 @@ interface Participant {
 interface Message {
   text: string;
   timestamp: number;
-  user: Participant;
+  sender: Participant;
 }
 
 interface IncomingMessage {
@@ -27,7 +27,7 @@ const DUMMY_MESSAGES = [
   {
     text: 'Velkommen til chatten',
     timestamp: Date.now(),
-    user: DUMMY_PARTICIPANTS[0]
+    sender: DUMMY_PARTICIPANTS[0]
   }
 ];
 
