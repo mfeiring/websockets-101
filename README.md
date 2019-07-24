@@ -116,5 +116,55 @@ Finn en måte å sette klassen `message--active` på de `<li>`-elementet i `Chat
 - **Scroll til bunnen av meldingslista når det kommer nye meldinger**  
 Bruk en `useEffect`-hook for å oppdatere scrollposisjonen til meldingslista, slik at man ser nye meldinger når de kommer.
 
+For å koble til hverandres chat, kan dere simpelthen bytte ut `localhost` med IP-adressen til en annen.x
 
+## Oppgave 6 - Spill
+
+I `client/src/components/Game.jsx` har vi satt opp en enkel komponent med et `canvas`-element. Funksjonen `mouseMove` fyrer av når vi beveger musepekeren over elementet, og lagrer posisjonen til musepekeren i variablene `x` og `y`. Poenget med denne oppgaven er og sende og motta disse koordinatene, slik at vi kan tegne opp bevegelsene til alle klienter som er tilkoblet serveren vår.
+
+**Server**
+1. Legg inn følgende typedefinisjoner i `server.ts`  
+```
+interface IncomingPosition {
+    x: string;
+    y: string;
+  }
+
+  interface Position extends IncomingPosition {
+    id: string;
+  }
+```
+2. Lag en tom liste der hvert element skal tilsvare et objekt av typen `Position`.
+3. Lag en lytterfunksjon som tar imot en posisjon fra klienten, av typen `IncomingPosition`. Legg denne posisjonen inn i lista du nettopp lagde.
+4. Send ut den oppdaterte posisjonslista til alle klienter.
+
+**Klient**
+1. Utvid `mouseMove`-funksjonen, slik at den sender `{x, y}` til lytterfunksjonen du lagde i steg 3 over.
+2. Lag en lytterfunksjon som tar imot den oppdaterte posisjonslista, og tegner hvert element på canvaset.
+
+For å tegne i et `canvas`-element, må vi benytte oss av [Canvas APIet](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API). Det første vi må gjøre er å hente ut en referanse til HTML-elementet `<canvas>`, slik
+```js
+const canvas = document.getElementById('canvas')
+```
+Deretter må vi hente ut en såkalt `rendering context`, som er der selve "tegningen" skjer. Dette gjør vi slik
+```js
+const context = canvas.getContext('2d');
+```
+For å faktisk tegne noe bruker vi deretter `context.fillRect(x, y, width, height)`. Dette lager et rektangel på posisjonen `[x, y]` med dimensjoner beskrevet av `width` og `height`. (Du kan lese mer om denne funksjonen [her](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillRect))
+
+3. Endre fargen på det som tegnes ved å bruke `context.fillStyle =`*`color`*. `color` kan være en hvilken som helst streng, som er gyldig som en farge i CSS, f.eks. `'black'` eller `#f0f0f0f0`.
+4. Gi hver klient en unik farge. Her kommer IDen inn i bildet. I `helpers.js` finner du en funksjon som vil hjelpe deg å generere hex-kode basert på ID.
+
+Det kan hende du opplever at musepekeren lagger en del, og det er tre vanlige årsaker til dette:
+
+1. Du bruker `console.log()` og det hoper seg opp med meldinger i nettleseren
+2. X og Y koordinatene vises med desimalpresisjon, og dette fører til at 
+det sendes veldig mange kall.
+3. Man sender melding selv om ikke koordinatene har endret seg
+
+Problem 2 og 3 kan man løse på flere måter, men her er et lite hint til deler av koden:
+```
+Math.abs(xPostion - x) > UPDATE_THRESHOLD
+```
+En annen måte å løse dette problemet på, er å mellomlagre posisjonene i applikasjonen, og kun sende et socket-kall f.eks. hvert 5 sekund.
 

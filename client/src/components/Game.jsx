@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Game = () => {
+const Game = ({ socket }) => {
   const mouseMove = event => {
     const { clientX, clientY } = event;
 

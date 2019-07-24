@@ -37,6 +37,19 @@
   let participants: Participant[] = DUMMY_PARTICIPANTS;
   let chatMessages: Message[] = DUMMY_MESSAGES;
 
+  // Oppgave 6
+  interface IncomingPosition {
+    x: string;
+    y: string;
+  }
+
+  interface Position extends IncomingPosition {
+    id: string;
+  }
+
+  let positions: Position[] = [];
+  // ---------
+
   io.on('connection', (socket: any) => {
     console.log('a user connected 😻');
 
@@ -74,7 +87,7 @@
     // ---------
 
     socket.on('disconnect', () => {
-      console.log('user disconnected');
+      console.log('user disconnected 😿');
 
       // Oppgave 5
       participants = participants.filter(
@@ -82,6 +95,13 @@
       );
       //
     });
+
+    // Oppgave 6
+    socket.on('draw', (position: IncomingPosition) => {
+      positions.push({ ...position, id: socket.id });
+      io.emit('positions', positions);
+    });
+    // ---------
   });
 
   server.listen(PORT, (err: any) => {
